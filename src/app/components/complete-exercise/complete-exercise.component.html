@@ -1,0 +1,46 @@
+<section class="panel">
+  <h2>Completar un ejercicio</h2>
+
+  <div class="user-summary">
+    <span class="badge">Nivel {{ user.level.levelNumber }} — {{ user.level.title }}</span>
+    <span>{{ user.currentXp }} XP</span>
+  </div>
+
+  <div class="form-row">
+    <label>
+      Ejercicio
+      <select [(ngModel)]="selectedExercise" name="exercise">
+        <option *ngFor="let ex of catalog" [ngValue]="ex">{{ ex.name }} ({{ ex.muscleGroup }})</option>
+      </select>
+    </label>
+
+    <label>
+      Repeticiones
+      <input type="number" min="1" [(ngModel)]="reps" name="reps" />
+    </label>
+
+    <button (click)="onComplete()">Completar ejercicio</button>
+  </div>
+
+  <div class="result" *ngIf="lastResult as result">
+    <p>Ganaste +{{ result.xpGained }} XP (total {{ result.totalXp }})</p>
+    <p *ngIf="result.levelUp" class="level-up">
+      ¡Subiste de nivel! {{ result.levelUp.oldLevel.title }} → {{ result.levelUp.newLevel.title }}
+    </p>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel-header">
+    <h2>Registro de ejecución (orden del Event Loop)</h2>
+    <button (click)="clearLog()">Limpiar</button>
+  </div>
+
+  <ol class="log-list">
+    <li *ngFor="let entry of logEntries" [class]="'phase-' + entry.phase">
+      <span class="phase-tag">{{ entry.phase }}</span>
+      <span class="message">{{ entry.message }}</span>
+      <span class="timestamp">{{ entry.timestamp.toFixed(2) }} ms</span>
+    </li>
+  </ol>
+</section>
